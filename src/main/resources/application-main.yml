@@ -1,0 +1,38 @@
+server:
+  # 요구사항에 의한 기본 포트 사용
+  port: 8080
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+spring:
+  application:
+    name: auth-api
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL
+    # 요구사항에 의한 인메모리 DB 사용
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      # 요구사항의 인메모리 DB 사용으로 인한 CREATE
+      ddl-auto: create
+    properties:
+      '[hibernate.default_batch_fetch_size]': 100
+  output:
+    ansi:
+      enabled: always
+
+app:
+  jwt:
+    # env 분리 미적용
+    key: todnqjrj123tkwnEpdy
+
+logging:
+  level:
+    '[com.jeon.auth_api]': INFO
