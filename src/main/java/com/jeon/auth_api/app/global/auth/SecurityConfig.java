@@ -1,8 +1,8 @@
 package com.jeon.auth_api.app.global.auth;
 
 import com.jeon.auth_api.app.domain.user.entity.UserRole;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.jeon.auth_api.app.global.exception.ErrorCode;
+import com.jeon.auth_api.app.global.util.CustomRespUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
-    private static final String INVALID_CREDENTIALS_CODE = "INVALID_CREDENTIALS";
-    private static final String INVALID_CREDENTIALS_MESSAGE = "아이디 또는 비밀번호가 올바르지 않습니다.";
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -46,7 +44,7 @@ public class SecurityConfig {
         http
                 .exceptionHandling(eh ->
                         eh.authenticationEntryPoint((request, response, authException) -> {
-                            CustomAuthRespUtil.fail(response, INVALID_CREDENTIALS_CODE, INVALID_CREDENTIALS_MESSAGE, HttpStatus.BAD_REQUEST);
+                            CustomRespUtil.fail(response, ErrorCode.INVALID_CREDENTIALS, HttpStatus.BAD_REQUEST);
                         }
                 ));
         http

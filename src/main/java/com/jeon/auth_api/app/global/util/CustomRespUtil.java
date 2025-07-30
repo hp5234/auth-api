@@ -1,14 +1,15 @@
-package com.jeon.auth_api.app.global.auth;
+package com.jeon.auth_api.app.global.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jeon.auth_api.app.global.dto.CommonErrorRespDto;
+import com.jeon.auth_api.app.global.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
-public class CustomAuthRespUtil {
-    private static final Logger log = LoggerFactory.getLogger(CustomAuthRespUtil.class);
+public class CustomRespUtil {
+    private static final Logger log = LoggerFactory.getLogger(CustomRespUtil.class);
 
     public static void success(HttpServletResponse response, Object dto, HttpStatus httpStatus) {
         try {
@@ -22,10 +23,10 @@ public class CustomAuthRespUtil {
         }
     }
 
-    public static void fail(HttpServletResponse response, String code, String message, HttpStatus httpStatus) {
+    public static void fail(HttpServletResponse response, ErrorCode errorCode, HttpStatus httpStatus) {
         try {
             ObjectMapper om = new ObjectMapper();
-            CommonErrorRespDto responseDto = CommonErrorRespDto.of(code, message);
+            CommonErrorRespDto responseDto = CommonErrorRespDto.of(errorCode.name(), errorCode.getMessage());
             String responseBody = om.writeValueAsString(responseDto);
             response.setContentType("application/json; charset=utf-8");
             response.setStatus(httpStatus.value());

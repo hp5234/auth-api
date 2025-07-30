@@ -1,6 +1,7 @@
 package com.jeon.auth_api.app.domain.user.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "tb_user")
@@ -45,9 +47,10 @@ public class User {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
+
     @Builder
-    public User(String username, String password, String nickname, List<UserRole> roles) {
+    public User(Long id, String username, String password, String nickname, List<UserRole> roles) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -56,7 +59,7 @@ public class User {
             this.roles.addAll(roles);
         }
     }
-    
+
     public void addRole(UserRole role) {
         if (!this.roles.contains(role)) {
             this.roles.add(role);
